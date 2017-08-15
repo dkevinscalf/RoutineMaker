@@ -6,111 +6,140 @@
         xmlns:local="clr-namespace:RoutineMaker"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
-    <Grid>
-        <StackPanel>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New"/>
+                <MenuItem Name="MenuOpen" Header="_Open" Click="MenuOpen_Click" />
+                <MenuItem Name="MenuSave" Header="_Save" Click="MenuSave_Click" />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Name="MenuAutoSave" Header="_AutoSave" IsCheckable="True" IsChecked="True" />
+            </MenuItem>
+        </Menu>
+        <Grid DockPanel.Dock="Bottom">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0">Segments:</Label>
-                <Grid Grid.Column="0" Grid.Row="1">
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Name="SegmentsBox" ItemsSource="{Binding Segments}" SelectionChanged="SegmentsBox_SelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Grid.Row="1" Name="AddSegmentButton" Click="AddSegmentButton_Click">Add</Button>
-                </Grid>
-                <Label Grid.Column="1" Grid.Row="0">Segment:</Label>
-                <StackPanel Grid.Column="1" Grid.Row="1">
-                    <Label>Name:</Label>
-                    <TextBox Name="NameTB" KeyUp="NameTB_KeyUp"></TextBox>
-                    <Label>Duration:</Label>
-                    <TextBox Name="DurationTB" KeyUp="DurationTB_KeyUp"></TextBox>
-                    <Label>Music:</Label>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Name="MusicFileText" ></TextBox>
-                        <Button Grid.Column="1" Width="20" Name="MusicFileButton" Click="MusicFileButton_Click" >...</Button>
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                        <Label>Segments:</Label>
+                        <Label Name="TotalTimeTB">0:00 Total Time</Label>
+                    </StackPanel>                    
+                    <Grid Grid.Column="0" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListBox Grid.Row="0" Name="SegmentsBox" ItemsSource="{Binding Segments}" SelectionChanged="SegmentsBox_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Name="AddSegmentButton" Click="AddSegmentButton_Click">Add</Button>
+                            <Button Grid.Column="1" Name="DeleteSegmentButton" Click="DeleteSegmentButton_Click">Delete</Button>
+                        </Grid>                        
                     </Grid>
-                </StackPanel>
-                <Label Grid.Column="2" Grid.Row="0">Actions:</Label>
-                <Grid Grid.Column="2" Grid.Row="1">
+                    <Label Grid.Column="1" Grid.Row="0">Segment:</Label>
+                    <StackPanel Grid.Column="1" Grid.Row="1">
+                        <Label>Name:</Label>
+                        <TextBox  Name="NameTB" KeyUp="NameTB_KeyUp" IsEnabled="False"></TextBox>
+                        <Label>Duration:</Label>
+                        <TextBox Name="DurationTB" KeyUp="DurationTB_KeyUp" IsEnabled="False"></TextBox>
+                        <Label>Music:</Label>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Name="MusicFileText" IsEnabled="False" ></TextBox>
+                            <Button Grid.Column="1" Width="20" Name="MusicFileButton" Click="MusicFileButton_Click" IsEnabled="False" >...</Button>
+                        </Grid>
+                    </StackPanel>
+                    <Label Grid.Column="2" Grid.Row="0">Actions:</Label>
+                    <Grid Grid.Column="2" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListBox Grid.Row="0" Name="EventsBox" ItemsSource="{Binding SegmentsBox.SelectedItem.Events}" SelectionChanged="EventsBox_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Padding="10 0" Text="{Binding ActionType}" />
+                                        <TextBlock Padding="10 0" Text="{Binding DisplayTime}" />
+                                        <TextBlock Padding="10 0" Text="{Binding ActionParams}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Row="1" Name="DeleteEventButton" Click="DeleteEventButton_Click" >Delete</Button>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto"/>
+                        <ColumnDefinition  Width="Auto"/>
+                        <ColumnDefinition  Width="*"/>
+                        <ColumnDefinition  Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Width="25" Grid.Column="0" Name="PlayButton" Click="PlayButton_Click">></Button>
+                    <Button Width="25" Grid.Column="1" Name="StopButton" Click="StopButton_Click">X</Button>
+                    <Slider Grid.Column="2" Name="TrackSlider" Thumb.DragCompleted="TrackSlider_OnDragCompleted" DragEnter="TrackSlider_DragEnter"></Slider>
+                    <Label Width="60" Grid.Column="3" Name="TrackLabel">0:00</Label>
+                </Grid>
+                <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Name="EventsBox" ItemsSource="{Binding SegmentsBox.SelectedItem.Events}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ActionType}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Grid.Row="1" Name="AddEventButton">Add</Button>
-                </Grid>
-                <Label Grid.Column="3" Grid.Row="0">Action:</Label>
-                <StackPanel Grid.Column="3" Grid.Row="1">
-                    <Label>Time:</Label>
-                    <TextBox Name="ActionTimeTB"></TextBox>
-                    <Label>Duration:</Label>
-                    <ComboBox Name="ActionTypeDD">
-                        <ComboBoxItem>Activity</ComboBoxItem>
-                        <ComboBoxItem>Image</ComboBoxItem>
-                        <ComboBoxItem>Text</ComboBoxItem>
-                    </ComboBox>
-                    <Label>Parameters:</Label>
-                    <TextBox Name="ActionParamsTB"></TextBox>
-                </StackPanel>
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition  Width="Auto"/>
-                    <ColumnDefinition  Width="Auto"/>
-                    <ColumnDefinition  Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Name="PlayButton" Click="PlayButton_Click">></Button>
-                <Slider Grid.Column="2" Name="TrackSlider" Thumb.DragCompleted="TrackSlider_OnDragCompleted" DragEnter="TrackSlider_DragEnter"></Slider>
-            </Grid>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel>
-                    <Label>ACTIVITY</Label>
-                    <Label>RPM:</Label>
-                    <Label Name="RPMLabel">100</Label>
-                    <Label>Watt%:</Label>
-                    <Label Name="WattLabel">50</Label>
-                    <Label>Position:</Label>
-                    <Label Name="PositionLabel">Sit</Label>
-                </StackPanel>
-                <StackPanel>
-                    <Label>Text</Label>
-                    <Label Name="TextLabel">SAMPLE TEXT</Label>
-                </StackPanel>
-                <StackPanel Height="400" Width="600">
-                    <Label>Image:</Label>
-                    <Image Stretch="Fill">
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="Auto"/>
+                            <ColumnDefinition  Width="*"/>
+                            <ColumnDefinition  Width="Auto"/>
+                            <ColumnDefinition  Width="*"/>
+                            <ColumnDefinition  Width="Auto"/>
+                            <ColumnDefinition  Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0">RPM:</Label>
+                        <TextBox Name="RPMText" Grid.Column="1" FontSize="16" KeyUp="RPMText_KeyUp">0</TextBox>
+                        <Label Grid.Column="2">Watt%:</Label>
+                        <TextBox Name="WattText" Grid.Column="3" FontSize="16" KeyUp="WattText_KeyUp">0</TextBox>
+                        <Label Grid.Column="4">Stand:</Label>
+                        <CheckBox Name="StandCB" Grid.Column="5" Margin="5" Click="StandCB_Click"></CheckBox>
+                    </Grid>
+                    <TextBox Name="TextTB" Grid.Row="1" Text="SAMPLE TEXT" SpellCheck.IsEnabled="True" FontWeight="Bold" FontSize="24" KeyUp="TextBox_KeyUp"></TextBox>
+                    <Image Name="ImageBox" Grid.Row="2" Stretch="Fill" MinHeight="100" MinWidth="500">
                         <Image.Source>
-                            <BitmapImage UriSource="C:\Users\kscalf\Documents\visual studio 2015\Projects\RoutineMaker\images\RM1.gif"/>
+                            <BitmapImage UriSource=""/>
                         </Image.Source>
                     </Image>
-                </StackPanel>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+                    <Button Grid.Row="3" Name="ImageButton" Click="ImageButton_Click">Change Image</Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </Window>

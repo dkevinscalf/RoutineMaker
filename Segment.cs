@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace RoutineMaker
 {
@@ -11,15 +13,18 @@ namespace RoutineMaker
     {
         public Segment()
         {
-            Events = new List<Event>();
+            Events = new ObservableCollection<Event>();
         }
 
         public int ID { get; set; }
 
+        public double GlobalStartTime { get; set; }
+
         public double Duration { get; set; }
 
-        public List<Event> Events { get; set; }
+        public ObservableCollection<Event> Events { get; set; }
 
+        [ScriptIgnore]
         public Event MusicEvent { get; set; }
 
         private string _name;
@@ -37,6 +42,18 @@ namespace RoutineMaker
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public Segment DeepCopy()
+        {
+            var newSegment = new Segment {Name = this.Name, ID = this.ID, Duration = this.Duration, GlobalStartTime = this.GlobalStartTime, MusicEvent = this.MusicEvent.DeepCopy()};
+
+            foreach (var eEvent in Events)
+            {
+                newSegment.Events.Add(eEvent.DeepCopy());
+            }
+
+            return newSegment;
         }
     }
 }
