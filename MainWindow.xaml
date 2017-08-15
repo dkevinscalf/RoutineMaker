@@ -5,8 +5,112 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RoutineMaker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
-        
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0">Segments:</Label>
+                <Grid Grid.Column="0" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox Grid.Row="0" Name="SegmentsBox" ItemsSource="{Binding Segments}" SelectionChanged="SegmentsBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Grid.Row="1" Name="AddSegmentButton" Click="AddSegmentButton_Click">Add</Button>
+                </Grid>
+                <Label Grid.Column="1" Grid.Row="0">Segment:</Label>
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <Label>Name:</Label>
+                    <TextBox Name="NameTB" KeyUp="NameTB_KeyUp"></TextBox>
+                    <Label>Duration:</Label>
+                    <TextBox Name="DurationTB" KeyUp="DurationTB_KeyUp"></TextBox>
+                    <Label>Music:</Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Name="MusicFileText" ></TextBox>
+                        <Button Grid.Column="1" Width="20" Name="MusicFileButton" Click="MusicFileButton_Click" >...</Button>
+                    </Grid>
+                </StackPanel>
+                <Label Grid.Column="2" Grid.Row="0">Actions:</Label>
+                <Grid Grid.Column="2" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox Grid.Row="0" Name="EventsBox" ItemsSource="{Binding SegmentsBox.SelectedItem.Events}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ActionType}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Grid.Row="1" Name="AddEventButton">Add</Button>
+                </Grid>
+                <Label Grid.Column="3" Grid.Row="0">Action:</Label>
+                <StackPanel Grid.Column="3" Grid.Row="1">
+                    <Label>Time:</Label>
+                    <TextBox Name="ActionTimeTB"></TextBox>
+                    <Label>Duration:</Label>
+                    <ComboBox Name="ActionTypeDD">
+                        <ComboBoxItem>Activity</ComboBoxItem>
+                        <ComboBoxItem>Image</ComboBoxItem>
+                        <ComboBoxItem>Text</ComboBoxItem>
+                    </ComboBox>
+                    <Label>Parameters:</Label>
+                    <TextBox Name="ActionParamsTB"></TextBox>
+                </StackPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="Auto"/>
+                    <ColumnDefinition  Width="Auto"/>
+                    <ColumnDefinition  Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Name="PlayButton" Click="PlayButton_Click">></Button>
+                <Slider Grid.Column="2" Name="TrackSlider" Thumb.DragCompleted="TrackSlider_OnDragCompleted" DragEnter="TrackSlider_DragEnter"></Slider>
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <Label>ACTIVITY</Label>
+                    <Label>RPM:</Label>
+                    <Label Name="RPMLabel">100</Label>
+                    <Label>Watt%:</Label>
+                    <Label Name="WattLabel">50</Label>
+                    <Label>Position:</Label>
+                    <Label Name="PositionLabel">Sit</Label>
+                </StackPanel>
+                <StackPanel>
+                    <Label>Text</Label>
+                    <Label Name="TextLabel">SAMPLE TEXT</Label>
+                </StackPanel>
+                <StackPanel Height="400" Width="600">
+                    <Label>Image:</Label>
+                    <Image Stretch="Fill">
+                        <Image.Source>
+                            <BitmapImage UriSource="C:\Users\kscalf\Documents\visual studio 2015\Projects\RoutineMaker\images\RM1.gif"/>
+                        </Image.Source>
+                    </Image>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
