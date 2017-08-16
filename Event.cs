@@ -69,6 +69,7 @@ namespace RoutineMaker
         Activity = 1,
         Music = 2, 
         Image = 3,
-        Text = 4
+        Text = 4,
+        Race = 5
     }
 }

@@ -233,6 +233,11 @@ namespace RoutineMaker
             return System.IO.Path.Combine(parentDir.ToString(), filePath.Replace("/", "\\"));
         }
 
+        private void UpsertEvent(Event thisEvent)
+        {
+            UpsertEvent(thisEvent.Time, thisEvent.ActionType, thisEvent.ActionParams);
+        }
+
         private void UpsertEvent(double time, ActionType actionType, string inputParams)
         {
             if (SegmentsBox.SelectedItem == null)
@@ -258,10 +263,7 @@ namespace RoutineMaker
                 case ActionType.Activity:
                     existingEvent.ActionParams = GetEventParamsFromActivityForm();
                     break;
-                case ActionType.Text:
-                    existingEvent.ActionParams = inputParams;
-                    break;
-                case ActionType.Image:
+                default:
                     existingEvent.ActionParams = inputParams;
                     break;
             }
@@ -607,5 +609,17 @@ namespace RoutineMaker
                 UpsertEvent(TrackSlider.Value, ActionType.Image, openFileDialog.FileName);
             }
         }
+
+        private void AddRaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SegmentsBox.SelectedItem != null)
+            {
+                var raceWindow = new RaceOptions(TrackSlider.Value);
+                if(raceWindow.ShowDialog() == true)
+                {
+                    UpsertEvent(raceWindow.RaceEvent);
+                }
+            }
+        }        
     }
 }

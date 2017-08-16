@@ -123,6 +123,7 @@
                             <ColumnDefinition  Width="*"/>
                             <ColumnDefinition  Width="Auto"/>
                             <ColumnDefinition  Width="*"/>
+                            <ColumnDefinition  Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0">RPM:</Label>
                         <TextBox Name="RPMText" Grid.Column="1" FontSize="16" KeyUp="RPMText_KeyUp">0</TextBox>
@@ -130,6 +131,7 @@
                         <TextBox Name="WattText" Grid.Column="3" FontSize="16" KeyUp="WattText_KeyUp">0</TextBox>
                         <Label Grid.Column="4">Stand:</Label>
                         <CheckBox Name="StandCB" Grid.Column="5" Margin="5" Click="StandCB_Click"></CheckBox>
+                        <Button Name="AddRaceButton" Grid.Column="6" Click="AddRaceButton_Click">Add Race..</Button>
                     </Grid>
                     <TextBox Name="TextTB" Grid.Row="1" Text="SAMPLE TEXT" SpellCheck.IsEnabled="True" FontWeight="Bold" FontSize="24" KeyUp="TextBox_KeyUp"></TextBox>
                     <Image Name="ImageBox" Grid.Row="2" Stretch="Fill" MinHeight="100" MinWidth="500">

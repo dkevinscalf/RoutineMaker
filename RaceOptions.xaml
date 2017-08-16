@@ -1,0 +1,25 @@
+﻿<Window x:Class="RoutineMaker.RaceOptions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoutineMaker"
+        mc:Ignorable="d"
+        Title="RaceOptions" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" FontSize="36">Start Time:</Label>
+        <TextBox Name="RaceStartTimeText" Grid.Column="1" Grid.Row="0" FontSize="36"/>
+        <Label Grid.Column="0" Grid.Row="1" FontSize="36">Duration:</Label>
+        <TextBox Name="RaceDurationText" Grid.Column="1" Grid.Row="1" FontSize="36"/>
+        <Button Name="RaceSubmitButton" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" FontSize="24" Click="RaceSubmitButton_Click">Create</Button>
+    </Grid>
+</Window>
